@@ -153,6 +153,28 @@ def fetch_agents_for_chain(wallet, chain_id):
 
     return result
 
+DEFAULT_AGENT_FIELDS = {
+    "name": "Unknown",
+    "level": 0,
+    "xp": 0,
+    "win_rate": 0,
+    "rating_points": 0,
+    "memory_count": 0,
+    "total_predictions": 0,
+    "total_wins": 0,
+    "current_win_streak": 0,
+    "potential_return_pct": 0,
+    "domain_focus": [],
+    "risk_preference": "N/A",
+    "style": "N/A",
+    "mbti": "N/A",
+    "llm_model": "N/A",
+    "status": "N/A",
+    "llm_total_tokens": 0,
+    "id": "N/A",
+    "prompt": ""
+}
+
 def fetch_agents_all_chains(wallet):
 
     combined = []
@@ -162,7 +184,12 @@ def fetch_agents_all_chains(wallet):
         chain_agents = fetch_agents_for_chain(wallet, chain_id)
 
         for a in chain_agents:
+
             a["chain"] = chain_name
+
+            for key, default in DEFAULT_AGENT_FIELDS.items():
+                a.setdefault(key, default)
+
             combined.append(a)
 
     return combined
