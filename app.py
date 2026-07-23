@@ -14,33 +14,88 @@ st.set_page_config(
 st.markdown("""
 <style>
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
 :root {
-    --gold: #F5A623;
-    --gold-dark: #B8790F;
-    --bg: #0B0B0F;
-    --panel: #171923;
-    --border: #2A2A33;
+    --bg: #0B0E14;
+    --panel: #12151D;
+    --panel-alt: #161A24;
+    --border: #232732;
+    --text: #E7E9EE;
+    --text-dim: #8A90A0;
+    --accent: #C9A227;
+    --accent-dim: #8C7420;
+    --positive: #3FB984;
+    --negative: #E5484D;
 }
 
-.stApp {
+html, body, .stApp {
     background-color: var(--bg);
-    color: #FFFFFF;
+    color: var(--text);
+    font-family: 'Inter', -apple-system, sans-serif;
 }
 
+/* ---- Typography ---- */
 h1, h2, h3 {
-    color: var(--gold);
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.01em;
+}
+
+h1 { font-size: 1.9rem; }
+h2 { font-size: 1.3rem; }
+h3 { font-size: 1.05rem; }
+
+p, span, label, div {
+    color: var(--text);
+}
+
+/* ---- Page header block ---- */
+.page-header {
+    padding-bottom: 14px;
+    margin-bottom: 22px;
+    border-bottom: 1px solid var(--border);
+}
+
+.page-header .eyebrow {
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-size: 0.72rem;
+    color: var(--accent);
+    font-weight: 600;
+    margin-bottom: 4px;
+}
+
+.page-header .subtitle {
+    color: var(--text-dim);
+    font-size: 0.9rem;
+    margin-top: 2px;
 }
 
 /* ---- Metric cards ---- */
-[data-testid="metric-container"] {
+[data-testid="stMetric"] {
     background-color: var(--panel);
-    border: 1px solid var(--gold);
-    border-radius: 12px;
-    padding: 15px;
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px 18px;
+}
+
+[data-testid="stMetricLabel"] {
+    color: var(--text-dim);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    font-weight: 500;
 }
 
 [data-testid="stMetricValue"] {
-    color: var(--gold);
+    color: var(--text);
+    font-weight: 600;
+    font-size: 1.5rem;
+}
+
+[data-testid="stMetricDelta"] {
+    font-size: 0.8rem;
 }
 
 /* ---- Sidebar ---- */
@@ -50,67 +105,103 @@ h1, h2, h3 {
 }
 
 [data-testid="stSidebar"] h1 {
-    color: var(--gold);
+    color: var(--text);
+    font-size: 1.15rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
 }
 
-/* ---- Sidebar nav buttons ---- */
 [data-testid="stSidebar"] button {
     width: 100%;
     text-align: left;
-    border-radius: 8px;
-    margin-bottom: 4px;
+    border-radius: 6px;
+    margin-bottom: 2px;
     font-weight: 500;
-    transition: background-color 0.15s ease, color 0.15s ease;
+    font-size: 0.88rem;
+    transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
 }
 
 [data-testid="stSidebar"] [data-testid="stBaseButton-primary"] {
-    background-color: var(--gold);
-    color: var(--bg);
-    border: none;
+    background-color: var(--panel-alt);
+    color: var(--accent);
+    border: 1px solid var(--accent-dim);
 }
 
 [data-testid="stSidebar"] [data-testid="stBaseButton-primary"]:hover {
-    background-color: var(--gold-dark);
-    color: #FFFFFF;
+    border-color: var(--accent);
 }
 
 [data-testid="stSidebar"] [data-testid="stBaseButton-secondary"] {
     background-color: transparent;
-    color: #FFFFFF;
-    border: 1px solid var(--border);
+    color: var(--text-dim);
+    border: 1px solid transparent;
 }
 
 [data-testid="stSidebar"] [data-testid="stBaseButton-secondary"]:hover {
-    border-color: var(--gold);
-    color: var(--gold);
+    color: var(--text);
+    border-color: var(--border);
 }
 
-/* ---- Regular action buttons (e.g. "Load Agents") ---- */
+/* ---- Action buttons in main area ---- */
 .main [data-testid="stBaseButton-secondary"] {
     background-color: var(--panel);
-    color: var(--gold);
-    border: 1px solid var(--gold);
+    color: var(--text);
+    border: 1px solid var(--border);
+    font-weight: 500;
 }
 
 .main [data-testid="stBaseButton-secondary"]:hover {
-    background-color: var(--gold);
-    color: var(--bg);
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* ---- Inputs ---- */
+.stTextInput input, .stSelectbox [data-baseweb="select"] {
+    background-color: var(--panel);
+    border: 1px solid var(--border);
+    color: var(--text);
 }
 
 /* ---- Tables ---- */
 [data-testid="stDataFrame"] {
     border: 1px solid var(--border);
     border-radius: 8px;
+    overflow: hidden;
 }
 
 /* ---- Expander ---- */
 [data-testid="stExpander"] {
     border: 1px solid var(--border);
     border-radius: 8px;
+    background-color: var(--panel);
+}
+
+/* ---- Dividers ---- */
+hr {
+    border-color: var(--border);
+}
+
+/* ---- Code blocks ---- */
+.stCodeBlock, pre {
+    background-color: var(--panel-alt) !important;
+    border: 1px solid var(--border);
 }
 
 </style>
 """, unsafe_allow_html=True)
+
+# =========================
+# PAGE HEADER HELPER
+# =========================
+
+def page_header(title, subtitle=None, eyebrow="EvoEvo Intelligence"):
+    st.markdown(f"""
+    <div class="page-header">
+        <div class="eyebrow">{eyebrow}</div>
+        <h1>{title}</h1>
+        {f'<div class="subtitle">{subtitle}</div>' if subtitle else ''}
+    </div>
+    """, unsafe_allow_html=True)
 
 # =========================
 # API
@@ -120,41 +211,6 @@ CHAIN_IDS = {
     "0G": 16661,
     "BSC": 56
 }
-
-@st.cache_data(ttl=300)
-def get_overview():
-
-    url = (
-        "https://api.evoevo.ai/v1/platform/home/overview"
-        "?chain_id=16661"
-    )
-
-    return requests.get(
-        url,
-        timeout=20
-    ).json()
-
-@st.cache_data(ttl=300)
-def fetch_agents_for_chain(wallet, chain_id):
-    
-    if not wallet or not wallet.strip():
-        return []
-
-    url = (
-        "https://api.evoevo.ai/v1/agents"
-        f"?wallet_address={wallet}"
-        f"&chain_id={chain_id}"
-    )
-
-    try:
-        result = requests.get(url, timeout=20).json()
-    except Exception:
-        return []
-
-    if not isinstance(result, list):
-        return []
-
-    return result
 
 DEFAULT_AGENT_FIELDS = {
     "name": "Unknown",
@@ -177,6 +233,41 @@ DEFAULT_AGENT_FIELDS = {
     "id": "N/A",
     "prompt": ""
 }
+
+@st.cache_data(ttl=300)
+def get_overview():
+
+    url = (
+        "https://api.evoevo.ai/v1/platform/home/overview"
+        "?chain_id=16661"
+    )
+
+    return requests.get(
+        url,
+        timeout=20
+    ).json()
+
+@st.cache_data(ttl=300)
+def fetch_agents_for_chain(wallet, chain_id):
+
+    if not wallet or not wallet.strip():
+        return []
+
+    url = (
+        "https://api.evoevo.ai/v1/agents"
+        f"?wallet_address={wallet}"
+        f"&chain_id={chain_id}"
+    )
+
+    try:
+        result = requests.get(url, timeout=20).json()
+    except Exception:
+        return []
+
+    if not isinstance(result, list):
+        return []
+
+    return result
 
 def fetch_agents_all_chains(wallet):
 
@@ -238,7 +329,7 @@ for p in PAGES:
         st.session_state.page = p
         st.rerun()
 
-page = st.session_state.page 
+page = st.session_state.page
 
 
 # =====================================
@@ -247,13 +338,16 @@ page = st.session_state.page
 
 if page == "Overview":
 
-    st.title("EvoEvo Live Intelligence Dashboard(0G+BSC)")
+    page_header(
+        "Platform Overview",
+        subtitle="Live intelligence across 0G and BSC agent networks"
+    )
 
     # =========================
     # KPI CARDS
     # =========================
 
-    c1,c2,c3,c4 = st.columns(4)
+    c1, c2, c3, c4 = st.columns(4)
 
     c1.metric(
         "Total Agents",
@@ -275,7 +369,7 @@ if page == "Overview":
         f"{overview['total_markets']:,}"
     )
 
-    c5,c6,c7,c8 = st.columns(4)
+    c5, c6, c7, c8 = st.columns(4)
 
     c5.metric(
         "Completed Topics",
@@ -294,7 +388,7 @@ if page == "Overview":
     st.subheader("Platform Metrics")
 
     df = pd.DataFrame({
-        "Metric":[
+        "Metric": [
             "Total Agents",
             "Total Predictions",
             "Memories",
@@ -302,7 +396,7 @@ if page == "Overview":
             "Completed Topics",
             "LLM Tokens"
         ],
-        "Value":[
+        "Value": [
             overview["total_agents"],
             overview["agent_opinions"],
             overview["memory_count"],
@@ -332,7 +426,10 @@ if page == "Overview":
 
 elif page == "Agent Leaderboard":
 
-    st.title("Agent Leaderboard")
+    page_header(
+        "Agent Leaderboard",
+        subtitle="Rank agents in a wallet by performance across both chains"
+    )
 
     wallet = st.text_input(
         "Wallet Address",
@@ -343,80 +440,90 @@ elif page == "Agent Leaderboard":
 
         agents = fetch_agents_all_chains(wallet)
 
-        rows = []
+        if len(agents) == 0:
 
-        for a in agents:
+            st.warning("No agents found. Enter a valid wallet address above.")
 
-            rows.append({
-                "Name": a.get("name"),
-                "Chain": a.get("chain"),
-                "Level": a.get("level"),
-                "XP": a.get("xp"),
-                "Win Rate %": round(
-                    a.get("win_rate", 0) * 100,
-                    2
-                ),
-                "Predictions": a.get("total_predictions"),
-                "Wins": a.get("total_wins"),
-                "Rating Points": a.get("rating_points"),
-                "Memories": a.get("memory_count"),
-                "Win Streak": a.get("current_win_streak"),
-                "Potential Return %": round(
-                    a.get("potential_return_pct", 0),
-                    2
-                ),
-                "Domain": ",".join(
-                    a.get("domain_focus", [])
-                ),
-                "Risk": a.get("risk_preference"),
-                "Style": a.get("style")
-            })
+        else:
 
-        df = pd.DataFrame(rows)
+            rows = []
 
-        st.dataframe(
-            df,
-            use_container_width=True,
-            hide_index=True
-        )
+            for a in agents:
 
-        st.subheader("Top Agent")
+                rows.append({
+                    "Name": a.get("name"),
+                    "Chain": a.get("chain"),
+                    "Level": a.get("level"),
+                    "XP": a.get("xp"),
+                    "Win Rate %": round(
+                        a.get("win_rate", 0) * 100,
+                        2
+                    ),
+                    "Predictions": a.get("total_predictions"),
+                    "Wins": a.get("total_wins"),
+                    "Rating Points": a.get("rating_points"),
+                    "Memories": a.get("memory_count"),
+                    "Win Streak": a.get("current_win_streak"),
+                    "Potential Return %": round(
+                        a.get("potential_return_pct", 0),
+                        2
+                    ),
+                    "Domain": ",".join(
+                        a.get("domain_focus", [])
+                    ),
+                    "Risk": a.get("risk_preference"),
+                    "Style": a.get("style")
+                })
 
-        if len(df) > 0:
+            df = pd.DataFrame(rows)
 
-            top = df.sort_values(
-                "Rating Points",
-                ascending=False
-            ).iloc[0]
-
-            c1,c2,c3,c4 = st.columns(4)
-
-            c1.metric(
-                "Name",
-                top["Name"]
+            st.dataframe(
+                df,
+                use_container_width=True,
+                hide_index=True
             )
 
-            c2.metric(
-                "Level",
-                top["Level"]
-            )
+            st.subheader("Top Agent")
 
-            c3.metric(
-                "Win Rate",
-                f"{top['Win Rate %']}%"
-            )
+            if len(df) > 0:
 
-            c4.metric(
-                "Rating",
-                top["Rating Points"]
-            )
+                top = df.sort_values(
+                    "Rating Points",
+                    ascending=False
+                ).iloc[0]
+
+                c1, c2, c3, c4 = st.columns(4)
+
+                c1.metric(
+                    "Name",
+                    top["Name"]
+                )
+
+                c2.metric(
+                    "Level",
+                    top["Level"]
+                )
+
+                c3.metric(
+                    "Win Rate",
+                    f"{top['Win Rate %']}%"
+                )
+
+                c4.metric(
+                    "Rating",
+                    top["Rating Points"]
+                )
+
 # =====================================
 # PAGE 3 - AGENT ANALYTICS
 # =====================================
 
 elif page == "Agent Analytics":
 
-    st.title("Agent Analytics")
+    page_header(
+        "Agent Analytics",
+        subtitle="Distribution of performance metrics across a wallet's agents"
+    )
 
     wallet = st.text_input(
         "Wallet Address",
@@ -426,37 +533,37 @@ elif page == "Agent Analytics":
 
     agents = fetch_agents_all_chains(wallet)
 
-    rows = []
+    if len(agents) == 0:
 
-    for a in agents:
-
-        rows.append({
-            "Name": a.get("name"),
-            "Chain": a.get("chain"),
-            "Level": a.get("level"),
-            "XP": a.get("xp"),
-            "Win Rate": round(
-                a.get("win_rate", 0) * 100,
-                2
-            ),
-            "Rating": a.get("rating_points"),
-            "Memories": a.get("memory_count"),
-            "Predictions": a.get("total_predictions"),
-            "Win Streak": a.get("current_win_streak"),
-            "Domain": ",".join(
-                a.get("domain_focus", [])
-            ),
-            "Risk": a.get("risk_preference"),
-            "Style": a.get("style")
-        })
-
-    df = pd.DataFrame(rows)
-
-    if len(df) == 0:
-
-        st.warning("No agents found")
+        st.info("Enter a wallet address above to load agents.")
 
     else:
+
+        rows = []
+
+        for a in agents:
+
+            rows.append({
+                "Name": a.get("name"),
+                "Chain": a.get("chain"),
+                "Level": a.get("level"),
+                "XP": a.get("xp"),
+                "Win Rate": round(
+                    a.get("win_rate", 0) * 100,
+                    2
+                ),
+                "Rating": a.get("rating_points"),
+                "Memories": a.get("memory_count"),
+                "Predictions": a.get("total_predictions"),
+                "Win Streak": a.get("current_win_streak"),
+                "Domain": ",".join(
+                    a.get("domain_focus", [])
+                ),
+                "Risk": a.get("risk_preference"),
+                "Style": a.get("style")
+            })
+
+        df = pd.DataFrame(rows)
 
         st.subheader("Win Rate Distribution")
 
@@ -495,17 +602,21 @@ elif page == "Agent Analytics":
             use_container_width=True,
             hide_index=True
         )
+
 # =====================================
 # PAGE 4 - NETWORK INTELLIGENCE
 # =====================================
 
 elif page == "Network Intelligence":
 
-    st.title("Network Intelligence")
+    page_header(
+        "Network Intelligence",
+        subtitle="Platform-wide scale and efficiency ratios"
+    )
 
     overview = get_overview()["overview"]
 
-    c1,c2,c3,c4 = st.columns(4)
+    c1, c2, c3, c4 = st.columns(4)
 
     c1.metric(
         "Agents",
@@ -528,12 +639,12 @@ elif page == "Network Intelligence":
     )
 
     metrics_df = pd.DataFrame({
-        "Metric":[
+        "Metric": [
             "Agents",
             "Total Predictions",
             "Memories"
         ],
-        "Value":[
+        "Value": [
             overview["total_agents"],
             overview["agent_opinions"],
             overview["memory_count"]
@@ -557,12 +668,12 @@ elif page == "Network Intelligence":
     st.subheader("Network Ratios")
 
     ratio_df = pd.DataFrame({
-        "Metric":[
+        "Metric": [
             "predictions per Agent",
             "Memories per Agent",
             "Predictions per Market"
         ],
-        "Value":[
+        "Value": [
             round(
                 overview["agent_opinions"] /
                 overview["total_agents"],
@@ -593,7 +704,10 @@ elif page == "Network Intelligence":
 
 elif page == "Agent Profile Explorer":
 
-    st.title("Agent Profile Explorer")
+    page_header(
+        "Agent Profile Explorer",
+        subtitle="Full configuration and identity details for each agent in a wallet"
+    )
 
     wallet = st.text_input(
         "Wallet Address",
@@ -616,7 +730,7 @@ elif page == "Agent Profile Explorer":
 
                 st.subheader(agent["name"])
 
-                c1,c2,c3,c4 = st.columns(4)
+                c1, c2, c3, c4 = st.columns(4)
 
                 c1.metric(
                     "Level",
@@ -638,7 +752,7 @@ elif page == "Agent Profile Explorer":
                     agent["rating_points"]
                 )
 
-                c5,c6,c7,c8 = st.columns(4)
+                c5, c6, c7, c8 = st.columns(4)
 
                 c5.metric(
                     "Predictions",
@@ -663,7 +777,7 @@ elif page == "Agent Profile Explorer":
                 st.markdown("### Agent Details")
 
                 details = pd.DataFrame({
-                    "Field":[
+                    "Field": [
                         "Agent ID",
                         "Chain",
                         "Domain",
@@ -675,7 +789,7 @@ elif page == "Agent Profile Explorer":
                         "Potential Return %",
                         "LLM Tokens"
                     ],
-                    "Value":[
+                    "Value": [
                         agent["id"],
                         agent.get("chain"),
                         ",".join(agent["domain_focus"]),
@@ -684,7 +798,7 @@ elif page == "Agent Profile Explorer":
                         agent["mbti"],
                         agent["llm_model"],
                         agent["status"],
-                        round(agent["potential_return_pct"],2),
+                        round(agent["potential_return_pct"], 2),
                         agent["llm_total_tokens"]
                     ]
                 })
@@ -708,13 +822,17 @@ elif page == "Agent Profile Explorer":
                 st.code(
                     agent["prompt"]
                 )
+
 # =====================================
 # PAGE 7 - AGENT COMPARISON
 # =====================================
 
 elif page == "Agent Comparison":
 
-    st.title("Agent Comparison")
+    page_header(
+        "Agent Comparison",
+        subtitle="Compare two agents from the same wallet side by side"
+    )
 
     wallet = st.text_input(
         "Wallet Address",
@@ -736,7 +854,7 @@ elif page == "Agent Comparison":
             for a in agents
         ]
 
-        col1,col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
         with col1:
 
@@ -766,7 +884,7 @@ elif page == "Agent Comparison":
 
         st.markdown("---")
 
-        c1,c2 = st.columns(2)
+        c1, c2 = st.columns(2)
 
         with c1:
 
@@ -865,7 +983,7 @@ elif page == "Agent Comparison":
         st.markdown("### Comparison Table")
 
         comparison = pd.DataFrame({
-            "Metric":[
+            "Metric": [
                 "Chain",
                 "Level",
                 "XP",
@@ -876,27 +994,27 @@ elif page == "Agent Comparison":
                 "Win Streak",
                 "Potential Return %"
             ],
-            left["name"]:[
+            left["name"]: [
                 left.get("chain"),
                 left["level"],
                 left["xp"],
-                round(left["win_rate"]*100,2),
+                round(left["win_rate"]*100, 2),
                 left["rating_points"],
                 left["memory_count"],
                 left["total_predictions"],
                 left["current_win_streak"],
-                round(left["potential_return_pct"],2)
+                round(left["potential_return_pct"], 2)
             ],
-            right["name"]:[
+            right["name"]: [
                 right.get("chain"),
                 right["level"],
                 right["xp"],
-                round(right["win_rate"]*100,2),
+                round(right["win_rate"]*100, 2),
                 right["rating_points"],
                 right["memory_count"],
                 right["total_predictions"],
                 right["current_win_streak"],
-                round(right["potential_return_pct"],2)
+                round(right["potential_return_pct"], 2)
             ]
         })
 
@@ -905,13 +1023,17 @@ elif page == "Agent Comparison":
             use_container_width=True,
             hide_index=True
         )
+
 # =====================================
 # PAGE 8 - DOMAIN INTELLIGENCE
 # =====================================
 
 elif page == "Domain Intelligence":
 
-    st.title("Domain Intelligence")
+    page_header(
+        "Domain Intelligence",
+        subtitle="Agent performance broken down by prediction domain"
+    )
 
     wallet = st.text_input(
         "Wallet Address",
@@ -950,9 +1072,7 @@ elif page == "Domain Intelligence":
 
     if len(df) == 0:
 
-        st.warning(
-            "No domain data found"
-        )
+        st.info("Enter a wallet address above to load domain data.")
 
     else:
 
@@ -1042,16 +1162,16 @@ elif page == "Domain Intelligence":
             use_container_width=True,
             hide_index=True
         )
+
 # =====================================
 # PAGE 9 - AGENT RANKING ENGINE
 # =====================================
 
 elif page == "Agent Ranking Engine":
 
-    st.title("Agent Ranking Engine")
-
-    st.caption(
-        "Custom ranking system built on top of EvoEvo data"
+    page_header(
+        "Agent Ranking Engine",
+        subtitle="Custom composite ranking built on top of EvoEvo data"
     )
 
     wallet = st.text_input(
@@ -1083,7 +1203,7 @@ elif page == "Agent Ranking Engine":
 
     if len(df) == 0:
 
-        st.warning("No agents found")
+        st.info("Enter a wallet address above to load agents.")
 
     else:
 
@@ -1197,13 +1317,17 @@ NeoScore =
 10% Win Streak
             """
         )
+
 # =====================================
 # PAGE 10 - AGENT HALL OF FAME
 # =====================================
 
 elif page == "Agent Hall of Fame":
 
-    st.title("Agent Hall of Fame")
+    page_header(
+        "Agent Hall of Fame",
+        subtitle="Top performers across every tracked metric"
+    )
 
     wallet = st.text_input(
         "Wallet Address",
@@ -1235,7 +1359,7 @@ elif page == "Agent Hall of Fame":
 
     if len(df) == 0:
 
-        st.warning("No agents found")
+        st.info("Enter a wallet address above to load agents.")
 
     else:
 
@@ -1265,7 +1389,7 @@ elif page == "Agent Hall of Fame":
 
         st.subheader("Award Winners")
 
-        c1,c2,c3 = st.columns(3)
+        c1, c2, c3 = st.columns(3)
 
         c1.metric(
             "Highest Win Rate",
@@ -1285,7 +1409,7 @@ elif page == "Agent Hall of Fame":
             best_rating["Rating"]
         )
 
-        c4,c5,c6 = st.columns(3)
+        c4, c5, c6 = st.columns(3)
 
         c4.metric(
             "Most Memories",
@@ -1311,7 +1435,7 @@ elif page == "Agent Hall of Fame":
 
         awards = pd.DataFrame({
 
-            "Award":[
+            "Award": [
                 "Highest Win Rate",
                 "Highest Level",
                 "Highest Rating",
@@ -1320,7 +1444,7 @@ elif page == "Agent Hall of Fame":
                 "Most Predictions"
             ],
 
-            "Winner":[
+            "Winner": [
                 best_wr["Name"],
                 best_level["Name"],
                 best_rating["Name"],
@@ -1343,7 +1467,10 @@ elif page == "Agent Hall of Fame":
 
 elif page == "Agent Config Intelligence":
 
-    st.title("Agent Config Intelligence")
+    page_header(
+        "Agent Config Intelligence",
+        subtitle="Reference data for building and configuring EvoEvo agents"
+    )
 
     config_url = (
         "https://api.evoevo.ai/v1/agents/configs"
@@ -1434,7 +1561,7 @@ elif page == "Agent Config Intelligence":
 
     st.dataframe(
         avatars[
-            ["id","label"]
+            ["id", "label"]
         ],
         use_container_width=True,
         hide_index=True
@@ -1452,7 +1579,7 @@ elif page == "Agent Config Intelligence":
                 "Setting": k,
                 "Value": v
             }
-            for k,v in config["defaults"].items()
+            for k, v in config["defaults"].items()
         ]
     )
 
@@ -1461,13 +1588,17 @@ elif page == "Agent Config Intelligence":
         use_container_width=True,
         hide_index=True
     )
+
 # =====================================
 # PAGE 12 - NETWORK GROWTH SIMULATOR
 # =====================================
 
 elif page == "Network Growth Simulator":
 
-    st.title("Network Growth Simulator")
+    page_header(
+        "Network Growth Simulator",
+        subtitle="Project platform growth under different monthly growth assumptions"
+    )
 
     overview = get_overview()["overview"]
 
@@ -1482,7 +1613,7 @@ elif page == "Network Growth Simulator":
         20
     )
 
-    months = [1,3,6,12]
+    months = [1, 3, 6, 12]
 
     rows = []
 
@@ -1510,7 +1641,7 @@ elif page == "Network Growth Simulator":
 
     sim_df = pd.DataFrame(rows)
 
-    c1,c2,c3 = st.columns(3)
+    c1, c2, c3 = st.columns(3)
 
     c1.metric(
         "Current Agents",
