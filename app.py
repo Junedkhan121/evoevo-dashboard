@@ -136,6 +136,9 @@ def get_overview():
 
 @st.cache_data(ttl=300)
 def fetch_agents_for_chain(wallet, chain_id):
+    
+    if not wallet or not wallet.strip():
+        return []
 
     url = (
         "https://api.evoevo.ai/v1/agents"
