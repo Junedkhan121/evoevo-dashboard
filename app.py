@@ -501,18 +501,12 @@ elif page == "Network Intelligence":
         "Metric":[
             "Agents",
             "Total Predictions",
-            "Memories",
-            "Markets",
-            "Completed Topics",
-            "Predictions"
+            "Memories"
         ],
         "Value":[
             overview["total_agents"],
             overview["agent_opinions"],
-            overview["memory_count"],
-            overview["total_markets"],
-            overview["completed_topics"],
-            overview["predictions_completed"]
+            overview["memory_count"]
         ]
     })
 
