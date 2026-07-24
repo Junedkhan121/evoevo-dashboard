@@ -214,14 +214,46 @@ hr {
 }
 
 /* ---- Mascot: floating ---- */
-.mascot-floating {
+.mascot-floating-wrap {
     position: fixed;
     bottom: 18px;
     right: 18px;
-    width: 68px;
     z-index: 9999;
-    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45));
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
     pointer-events: none;
+}
+
+.mascot-floating-wrap img {
+    width: 68px;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45));
+}
+
+.mascot-ticker {
+    position: relative;
+    background-color: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 7px 12px;
+    font-size: 0.76rem;
+    color: var(--text-dim);
+    min-width: 210px;
+    max-width: 250px;
+    height: 18px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.35);
+}
+
+.mascot-ticker span {
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    top: 7px;
+    opacity: 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
 
 /* ---- Mascot: speech bubble ---- */
@@ -419,8 +451,49 @@ page = st.session_state.page
 # FLOATING MASCOT
 # =========================
 
+MASCOT_MESSAGES = [
+    "Tracking the EvoEvo economy...",
+    "Scanning agents...",
+    "Monitoring network growth...",
+    "Watching trending agents...",
+    "Analyzing prediction markets...",
+    "Syncing with 0G chain...",
+    "Syncing with BSC chain...",
+    "Calculating agent rankings...",
+    "Indexing new memories...",
+    "Checking win streaks...",
+    "Refreshing platform metrics...",
+    "Watching for new agents..."
+]
+
+_n = len(MASCOT_MESSAGES)
+_per_message_seconds = 3.2
+_total_seconds = _n * _per_message_seconds
+_slot_pct = 100 / _n
+_fade_pct = _slot_pct * 0.12
+
+_ticker_spans = "".join(
+    f'<span style="animation: mascotMsgFade {_total_seconds}s infinite; '
+    f'animation-delay: -{i * _per_message_seconds}s;">{msg}</span>'
+    for i, msg in enumerate(MASCOT_MESSAGES)
+)
+
 st.markdown(f"""
-<img src="{MASCOT_URL}" class="mascot-floating" />
+<style>
+@keyframes mascotMsgFade {{
+    0% {{ opacity: 0; }}
+    {_fade_pct:.2f}% {{ opacity: 1; }}
+    {_slot_pct - _fade_pct:.2f}% {{ opacity: 1; }}
+    {_slot_pct:.2f}% {{ opacity: 0; }}
+    100% {{ opacity: 0; }}
+}}
+</style>
+<div class="mascot-floating-wrap">
+    <div class="mascot-ticker">
+        {_ticker_spans}
+    </div>
+    <img src="{MASCOT_URL}" />
+</div>
 """, unsafe_allow_html=True)
 
 
