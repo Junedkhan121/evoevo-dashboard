@@ -7,6 +7,8 @@ st.set_page_config(
     layout="wide"
 )
 
+MASCOT_URL = "https://raw.githubusercontent.com/Junedkhan121/evoevo-dashboard/main/mascot.png"
+
 # =========================
 # THEME
 # =========================
@@ -187,6 +189,75 @@ hr {
     border: 1px solid var(--border);
 }
 
+/* ---- Mascot: header ---- */
+.header-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+}
+
+.header-row .mascot-topright img {
+    width: 56px;
+    border-radius: 10px;
+}
+
+/* ---- Mascot: sidebar ---- */
+.sidebar-mascot {
+    text-align: center;
+    margin: 4px 0 14px 0;
+}
+
+.sidebar-mascot img {
+    width: 64px;
+    opacity: 0.95;
+}
+
+/* ---- Mascot: floating ---- */
+.mascot-floating {
+    position: fixed;
+    bottom: 18px;
+    right: 18px;
+    width: 68px;
+    z-index: 9999;
+    filter: drop-shadow(0 4px 12px rgba(0,0,0,0.45));
+    pointer-events: none;
+}
+
+/* ---- Mascot: speech bubble ---- */
+.mascot-comment {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background-color: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 18px;
+    margin: 6px 0 20px 0;
+}
+
+.mascot-comment img {
+    width: 48px;
+    border-radius: 8px;
+    flex-shrink: 0;
+}
+
+.mascot-comment .bubble {
+    color: var(--text);
+    font-size: 0.92rem;
+    line-height: 1.4;
+}
+
+.mascot-comment .bubble .label {
+    color: var(--accent);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: block;
+    margin-bottom: 3px;
+}
+
 </style>
 """, unsafe_allow_html=True)
 
@@ -197,9 +268,16 @@ hr {
 def page_header(title, subtitle=None, eyebrow="EvoEvo Intelligence"):
     st.markdown(f"""
     <div class="page-header">
-        <div class="eyebrow">{eyebrow}</div>
-        <h1>{title}</h1>
-        {f'<div class="subtitle">{subtitle}</div>' if subtitle else ''}
+        <div class="header-row">
+            <div>
+                <div class="eyebrow">{eyebrow}</div>
+                <h1>{title}</h1>
+                {f'<div class="subtitle">{subtitle}</div>' if subtitle else ''}
+            </div>
+            <div class="mascot-topright">
+                <img src="{MASCOT_URL}" />
+            </div>
+        </div>
     </div>
     """, unsafe_allow_html=True)
 
@@ -319,6 +397,12 @@ if "page" not in st.session_state:
 
 st.sidebar.title("EvoEvo")
 
+st.sidebar.markdown(f"""
+<div class="sidebar-mascot">
+    <img src="{MASCOT_URL}" />
+</div>
+""", unsafe_allow_html=True)
+
 for p in PAGES:
     if st.sidebar.button(
         p,
@@ -330,6 +414,14 @@ for p in PAGES:
         st.rerun()
 
 page = st.session_state.page
+
+# =========================
+# FLOATING MASCOT
+# =========================
+
+st.markdown(f"""
+<img src="{MASCOT_URL}" class="mascot-floating" />
+""", unsafe_allow_html=True)
 
 
 # =====================================
@@ -1640,6 +1732,48 @@ elif page == "Network Growth Simulator":
         })
 
     sim_df = pd.DataFrame(rows)
+
+    projected_12mo_agents = int(sim_df.iloc[-1]["Projected Agents"])
+
+    def mascot_growth_comment(growth_pct, projected_agents):
+
+        if growth_pct >= 50:
+            return (
+                "Ambitious",
+                f"At {growth_pct}% monthly growth, the network could reach "
+                f"{projected_agents:,} agents within a year. Worth stress-testing "
+                "this assumption against recent actuals."
+            )
+        elif growth_pct >= 20:
+            return (
+                "Strong trajectory",
+                f"A {growth_pct}% monthly rate projects to {projected_agents:,} "
+                "agents in 12 months — a healthy, sustained expansion pace."
+            )
+        elif growth_pct >= 5:
+            return (
+                "Steady pace",
+                f"At {growth_pct}% monthly growth, the network trends toward "
+                f"{projected_agents:,} agents over the year. Consistent, if unspectacular."
+            )
+        else:
+            return (
+                "Conservative estimate",
+                f"A {growth_pct}% monthly rate is a cautious baseline, projecting "
+                f"{projected_agents:,} agents in 12 months."
+            )
+
+    label, comment = mascot_growth_comment(growth, projected_12mo_agents)
+
+    st.markdown(f"""
+    <div class="mascot-comment">
+        <img src="{MASCOT_URL}" />
+        <div class="bubble">
+            <span class="label">{label}</span>
+            {comment}
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
     c1, c2, c3 = st.columns(3)
 
